@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="An illustrated explanation of Jevex: Jev directs research, an LLM writes content, and MCP tools retrieve evidence. A measured live case, token accounting, and limitations.">
+<title>Jevex — Decisions here. Words there.</title>
+<style>
+:root{--paper:#f5f3eb;--card:#fffef9;--ink:#172d36;--muted:#51636a;--line:#cbd2cc;--jev:#11675b;--jev-bg:#e4f0e7;--llm-bg:#f9edcd;--tool-bg:#e7eef7;--red:#9d3930;--red-bg:#fae9e3}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--jev);text-underline-offset:4px}a:hover{color:var(--ink)}a:focus-visible,summary:focus-visible{outline:3px solid #355b85;outline-offset:5px}.skip{position:absolute;left:20px;top:-100px;background:white;padding:12px;z-index:9}.skip:focus{top:12px}
+.masthead{padding:24px 5vw;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:20px}.brand{font-weight:850;letter-spacing:.15em;font-size:16px}.edition{font:12px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--muted)}.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:190px minmax(0,1fr);gap:48px;padding:0 5vw 70px}nav{position:sticky;top:32px;align-self:start;padding-top:65px;font-size:13px}nav p{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}nav a{display:block;text-decoration:none;color:var(--muted);padding:8px 0;border-bottom:1px solid var(--line)}main{min-width:0}.hero{padding:65px 0 40px}.eyebrow{font:12px/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.11em;color:var(--jev)}h1{font-size:clamp(42px,5.7vw,76px);line-height:1.03;letter-spacing:-.055em;margin:22px 0 26px}h1 span{color:var(--jev)}.lede{font-size:22px;line-height:1.55;max-width:760px}.hero-note{max-width:740px;color:var(--muted);font-size:15px}h2{font-size:32px;line-height:1.2;letter-spacing:-.025em;margin:10px 0 24px}h3{font-size:20px;line-height:1.4;margin:0 0 12px}p{margin:0 0 18px}section{padding:40px 0;border-top:1px solid var(--line)}.section-number{font:12px/1.5 ui-monospace,monospace;color:var(--muted);letter-spacing:.1em}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:23px;border:1px solid var(--line);border-radius:5px;background:var(--card)}.card p:last-child{margin-bottom:0}.jev{background:var(--jev-bg);border-color:#a9cabb}.llm{background:var(--llm-bg);border-color:#d9c699}.tool{background:var(--tool-bg);border-color:#bbcddd}.tag{display:inline-block;font:11px/1.4 ui-monospace,monospace;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:13px}.card p{font-size:15px}.callout{border-left:4px solid var(--jev);padding:18px 23px;background:var(--jev-bg);margin:24px 0;font-size:16px}.warning{border-color:var(--red);background:var(--red-bg)}figure{margin:28px 0}.diagram{padding:18px;background:var(--card);border:1px solid var(--line);border-radius:5px;overflow-x:auto}.diagram svg{width:100%;height:auto;display:block;min-width:680px}figcaption{font-size:13px;line-height:1.6;color:var(--muted);margin-top:10px}.diagram text{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:var(--ink)}.diagram .small{font-size:13px;fill:var(--muted)}.diagram .title{font-size:18px;font-weight:700}.diagram .label{font-size:14px}.diagram .arrow{fill:none;stroke:#63787d;stroke-width:2;marker-end:url(#arrow)}.diagram .lane{stroke:#b9c8c5;stroke-width:1.5;stroke-dasharray:5 5}
+blockquote{font-size:21px;line-height:1.55;margin:24px 0;padding:22px 28px;border-left:4px solid var(--ink);background:var(--card)}.steps{list-style:none;padding:0;counter-reset:step}.steps>li{counter-increment:step;position:relative;margin:0 0 0 17px;padding:0 0 27px 38px;border-left:1px solid var(--line)}.steps>li:last-child{border-left-color:transparent;padding-bottom:0}.steps>li:before{content:counter(step);position:absolute;left:-17px;top:0;display:grid;place-items:center;width:33px;height:33px;border-radius:50%;background:var(--ink);color:#fff;font:13px ui-monospace,monospace}.steps p{font-size:16px}code{font:.84em/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}p code,li code,td code{background:#e8eae3;padding:2px 4px;border-radius:3px}pre{background:#172d36;color:#edf4ed;padding:23px;border-radius:5px;overflow-x:auto;font-size:14px;line-height:1.7}pre code{font-size:inherit;overflow-wrap:normal}.table-wrap{overflow-x:auto;margin:22px 0}table{border-collapse:collapse;width:100%;font-size:14px;text-align:left}caption{text-align:left;font-weight:700;padding:0 0 12px}th{font-size:11px;text-transform:uppercase;letter-spacing:.045em;color:var(--muted);border-bottom:2px solid var(--ink)}th,td{padding:12px 10px;vertical-align:top}td{border-bottom:1px solid var(--line)}.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.pass{color:var(--jev);font-weight:650}.fail{color:var(--red);font-weight:650}.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin:26px 0}.metric{border-top:3px solid var(--jev);padding-top:15px}.metric strong{display:block;font-size:40px;line-height:1.2;letter-spacing:-.04em}.metric span{font-size:13px;color:var(--muted)}.chart{padding:25px;background:var(--card);border:1px solid var(--line)}.bar-row{margin:18px 0}.bar-label{display:flex;justify-content:space-between;gap:16px;font-size:14px;margin-bottom:7px}.bar-track{height:30px;background:#eef0ea;display:flex}.fresh{background:var(--jev);height:100%}.cached{background:repeating-linear-gradient(135deg,#9fc6b6,#9fc6b6 4px,#c9ded2 4px,#c9ded2 8px);height:100%}.legend{display:flex;flex-wrap:wrap;gap:22px;font-size:12px;color:var(--muted)}.key{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:middle}.muted{color:var(--muted)}.small-copy{font-size:14px}.formula{font:15px/1.8 ui-monospace,monospace;padding:19px;border:1px dashed var(--line);overflow-wrap:anywhere;margin:20px 0}details{border:1px solid var(--line);border-radius:5px;margin:16px 0;background:var(--card)}summary{padding:18px 22px;cursor:pointer;font-weight:650}details .inside{padding:0 22px 20px}details pre{margin-bottom:0}ul{padding-left:23px}li{margin-bottom:8px}footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13px}
+@media(max-width:1050px){.layout{grid-template-columns:155px minmax(0,1fr);gap:30px}.grid{grid-template-columns:1fr}.lede{font-size:20px}}
+@media(max-width:760px){body{font-size:16px}.masthead{padding:18px 6vw}.edition{max-width:155px;text-align:right}.layout{display:block;padding:0 6vw 40px}nav{position:static;padding:20px 0 0;display:flex;gap:8px 16px;flex-wrap:wrap}nav p{display:none}nav a{padding:3px 0;font-size:12px}.hero{padding-top:38px}h1{font-size:48px}h2{font-size:28px}.metrics{gap:12px}.metric strong{font-size:30px}.diagram{padding:10px}.chart{padding:18px}section{padding:30px 0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{body{background:white;font-size:11pt}.masthead{padding:0 0 14px}.layout{display:block;padding:0}nav,.skip{display:none}.hero{padding:25px 0}h1{font-size:40pt}.diagram{overflow:visible}.diagram svg{min-width:0}.card,figure,.metrics{break-inside:avoid}section{padding:22px 0}pre{white-space:pre-wrap;color:black;background:#eee}a{color:inherit}.table-wrap{overflow:visible}details .inside{display:block}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip">Skip to content</a>
+<header class="masthead"><div class="brand">JEVEX / FIELD NOTES</div><div class="edition">Architecture explainer<br>Research experiment · 17 September 2026</div></header>
+<div class="layout">
+<nav aria-label="Contents"><p>Inside the experiment</p><a href="#idea">01 / The split</a><a href="#loop">02 / The control loop</a><a href="#research">03 / A real research run</a><a href="#boundary">04 / The context boundary</a><a href="#comparison">05 / A fair comparison</a><a href="#tokens">06 / Counting tokens</a><a href="#failures">07 / What went wrong</a><a href="#implementation">08 / Code &amp; reproduction</a></nav>
+<main id="main">
+<div class="hero"><div class="eyebrow">A structured controller + a language model + real tools</div><h1>Decisions here.<br><span>Words there.</span></h1><p class="lede">Jevex separates deciding what an agent does from writing what it says. Jev directs the research. An LLM supplies the search text and the final explanation. Python executes the selected tools.</p><p class="hero-note">This explains the implemented prototype, not a proposed architecture. Follow one live Webb/Hubble investigation, then examine measured token usage and the cases where the design failed.</p></div>
+
+<section id="idea">
+<div class="section-number">01 / THE SPLIT</div><h2>One agent. Three distinct responsibilities.</h2>
+<p>In the native tool-calling baselines, the LLM sees a tool catalog, selects calls, constructs arguments, reads results, and eventually answers. Jevex moves action selection to Jev, TypeSafe’s structured-decision model. The writing model is invoked only for a specific content assignment.</p>
+<div class="grid">
+<article class="card jev"><span class="tag">Jev · controller</span><h3>Choose the next move</h3><p>Select a tool, choose the research question to pursue or URL to read, approve the proposed call, and decide when to answer or stop.</p></article>
+<article class="card llm"><span class="tag">LLM · writer</span><h3>Produce the content</h3><p>Turn the assigned question into a search query. Later, turn supplied evidence into a cited brief. No tool catalog or native tool-call interface is provided.</p></article>
+<article class="card tool"><span class="tag">Python + MCP · execution</span><h3>Make the call real</h3><p>Build and validate arguments, invoke an allowed external tool, cap the returned text, and append the result or error to shared state.</p></article>
+</div>
+<div class="callout"><strong>“No decisions by the LLM” means no control-flow authority.</strong> The writer still makes semantic choices when composing a query or answer; those choices affect quality. It does not select the next tool, schedule retrieval, or decide when the loop is done.</div>
+<p>MCP is the tool connection protocol here—not another model. The Python client discovers tool descriptions and schemas from servers and uses those connections to execute calls. Jev and the LLM do not access the servers directly.</p>
+</section>
+
+<section id="loop">
+<div class="section-number">02 / THE CONTROL LOOP</div><h2>The controller owns the agenda.</h2>
+<figure><div class="diagram">
+<svg viewBox="0 0 880 505" role="img" aria-labelledby="loop-title loop-desc">
+<title id="loop-title">Jevex control and evidence flow</title><desc id="loop-desc">Shared state goes to Jev, which selects a tool, requests an answer, or stops. Tool selection leads to argument preparation, optional LLM query writing, Jev approval, validation and MCP execution. Observations return to state. The final writer receives a content-only projection.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8" fill="#63787d"/></marker></defs>
+<rect x="25" y="24" width="235" height="78" rx="5" fill="#fffef9" stroke="#aabbb9"/><text class="title" x="45" y="54">Shared research state</text><text class="small" x="45" y="79">Brief + questions + observations</text>
+<path class="arrow" d="M260 63 H320"/>
+<rect x="322" y="24" width="232" height="78" rx="5" fill="#e4f0e7" stroke="#a9cabb"/><text class="title" x="342" y="54">Jev selects an action</text><text class="small" x="342" y="79">Tool · answer · stop</text>
+<path class="arrow" d="M554 63 H618"/><text class="small" x="568" y="49">answer</text>
+<rect x="620" y="24" width="233" height="78" rx="5" fill="#f9edcd" stroke="#d9c699"/><text class="title" x="639" y="54">LLM writes the brief</text><text class="small" x="639" y="79">Content-only evidence → done</text>
+<path class="arrow" d="M438 102 V159"/><text class="small" x="451" y="134">tool</text>
+<rect x="322" y="161" width="232" height="85" rx="5" fill="#e4f0e7" stroke="#a9cabb"/><text class="title" x="342" y="192">Prepare arguments</text><text class="small" x="342" y="215">Jev picks a question or URL</text><text class="small" x="342" y="233">Python supplies fixed parameters</text>
+<path class="arrow" d="M554 187 H618"/>
+<rect x="620" y="161" width="233" height="85" rx="5" fill="#f9edcd" stroke="#d9c699"/><text class="title" x="639" y="192">LLM writes a query</text><text class="small" x="639" y="215">Search only; no tool schema</text><text class="small" x="639" y="233">Skipped for known-URL fetches</text>
+<path class="arrow" d="M620 227 H571 V272 H494 V299"/><path class="arrow" d="M400 246 V299"/>
+<rect x="322" y="301" width="232" height="73" rx="5" fill="#e4f0e7" stroke="#a9cabb"/><text class="title" x="342" y="331">Jev approves the call</text><text class="small" x="342" y="355">Execute or reject</text>
+<path class="arrow" d="M554 338 H618"/>
+<rect x="620" y="301" width="233" height="73" rx="5" fill="#e7eef7" stroke="#bbcddd"/><text class="title" x="639" y="331">Validate → MCP call</text><text class="small" x="639" y="355">Allowlist, schema, timeout, cap</text>
+<path class="arrow" d="M738 374 V437 H262"/>
+<rect x="25" y="405" width="235" height="66" rx="5" fill="#fffef9" stroke="#aabbb9"/><text class="title" x="45" y="433">Append observation</text><text class="small" x="45" y="455">Delivered text or execution error</text>
+<path class="arrow" d="M142 405 V104"/><text class="small" x="160" y="294">Repeat with updated state</text>
+</svg>
+</div><figcaption>Primary execution path. Rejected proposals record feedback without calling MCP. An explicit stop or the iteration limit ends the run without a completed research brief.</figcaption></figure>
+<div class="grid two">
+<div><h3>Structured choices, not action prose</h3><p>Each Jev request contains current state, a decision instruction, and a finite map of candidate IDs to descriptions. The response identifies a choice and reports confidence/probabilities. Python maps that choice back to an action or candidate.</p><p>For URL selection, the adapter extracts URLs from the request and successful observations, removes common asset links and already-read pages, and presents up to 254 candidates plus “none.”</p></div>
+<div><h3>Approval is useful, but not proof</h3><p>Before execution, Jev judges whether the fully constructed call is relevant and useful. Python separately checks the tool allowlist and JSON schema. A valid, relevant call can still return incomplete or misleading evidence.</p><p>Confidence is logged, not used as a minimum threshold in this read-only benchmark. Several next reads may be reasonable; confidence is not a guarantee of correctness.</p></div>
+</div>
+<details><summary>What prevents the loop from running forever?</summary><div class="inside"><p>The default is ten action iterations. Exact duplicate tool/argument combinations are rejected. Argument-preparation or approval failures temporarily remove that action from the next choice set; the block set clears after a tool attempt. Execution errors enter observation history. Each tool call has a 45-second timeout. These are bounds and recovery mechanisms, not a guarantee of progress.</p><p>The “retrieve at least two pages before answering” rule is currently an instruction to Jev and a post-run check—not a hard gate that removes the answer action.</p></div></details>
+</section>
+
+<section id="research">
+<div class="section-number">03 / A REAL RESEARCH RUN</div><h2>Follow the Webb/Hubble investigation.</h2>
+<blockquote>Compare Webb and Hubble for observing the early universe. Cover mirror sizes, wavelength capabilities, redshift, observing locations, and why Webb is not a universal replacement. Retrieve at least two primary-source pages and cite them.</blockquote>
+<p class="small-copy muted">Condensed from the actual brief. All three arms also receive the same three explicit research questions. They do not receive the evaluator’s expected fact patterns.</p>
+<div class="table-wrap"><table><caption>The live tool catalog</caption><thead><tr><th>Connection</th><th>Available operations</th><th>Role</th></tr></thead><tbody>
+<tr><td>Exa hosted MCP<br>Streamable HTTP</td><td><code>web_search_exa</code><br><code>web_search_advanced_exa</code><br><code>web_fetch_exa</code></td><td>Discover source pages and retrieve their text.</td></tr>
+<tr><td>Fetch MCP<br>Local stdio subprocess</td><td><code>fetch</code></td><td>Alternative web-page reader. Available, but not selected in this Jev run.</td></tr>
+</tbody></table></div>
+<ol class="steps">
+<li><h3>Jev chooses search—and the gap to investigate.</h3><p>Initial state contains the brief, three research questions, and no events. Jev selects advanced search, then chooses the question about infrared sensitivity, redshifted early galaxies, and Hubble’s remaining capabilities. These are two separate Jev decisions.</p></li>
+<li><h3>The LLM writes one query.</h3><p>The writer receives the brief and assigned question—not the tool name, schema, or alternative actions. It returns:</p>
+<pre><code>site:nasa.gov OR site:esa.int Webb infrared sensitivity
+redshifted early galaxies Hubble capabilities wavelength coverage</code></pre>
+<p>Python adds <code>numResults=5</code>, <code>textMaxCharacters=2500</code>, <code>enableSummary=False</code>, and <code>type="auto"</code>. Jev approves; Python validates and executes the Exa search. <strong>LLM call 1: 233 input / 94 output tokens.</strong></p></li>
+<li><h3>Jev selects and reads the first source.</h3><p>The search result enters state. Jev selects Exa page retrieval, chooses NASA’s <a href="https://science.nasa.gov/mission/hubble/observatory/hubble-vs-webb/">Hubble vs. Webb</a> page from known URLs, and approves the call. Python supplies the URL and a 12,000-character retrieval parameter. The LLM is not called.</p></li>
+<li><h3>Jev selects a second source.</h3><p>With the first page in state, Jev selects retrieval again, chooses NASA’s <a href="https://science.nasa.gov/mission/webb/science-overview/science-explainers/how-can-webb-study-the-early-universe/">How Can Webb Study the Early Universe?</a>, and approves it. Again, no LLM call is needed to copy a known URL into an argument.</p></li>
+<li><h3>Jev decides to answer. The LLM synthesizes.</h3><p>Jev selects <code>answer</code>. The writer receives the request and a content-only projection of the search result and two pages. It connects mirror sizes and wavelength coverage to redshift, observing location, and complementary capabilities, citing the two NASA pages. <strong>LLM call 2: 7,221 input / 820 output tokens.</strong></p></li>
+</ol>
+<figure><div class="diagram">
+<svg viewBox="0 0 880 400" role="img" aria-labelledby="sequence-title sequence-desc">
+<title id="sequence-title">Measured research sequence by participant</title><desc id="sequence-desc">Search uses three Jev decisions, one LLM call, and one Exa call. Each of two page reads uses three Jev decisions and one Exa call, but no LLM. Final synthesis uses one Jev decision and one LLM call. Totals: ten Jev calls, two LLM calls, three MCP calls.</desc>
+<text class="title" x="30" y="32">Stage</text><text class="title" x="265" y="32">Jev</text><text class="title" x="505" y="32">Writing LLM</text><text class="title" x="743" y="32">MCP</text>
+<path class="lane" d="M305 50 V345 M558 50 V345 M785 50 V345"/>
+<text class="label" x="30" y="94">1 · Search</text><rect x="209" y="64" width="192" height="51" rx="4" fill="#e4f0e7"/><text class="label" x="225" y="86">Tool + focus + approval</text><text class="small" x="225" y="104">3 decisions</text><rect x="470" y="64" width="176" height="51" rx="4" fill="#f9edcd"/><text class="label" x="486" y="94">Write query</text><rect x="704" y="64" width="154" height="51" rx="4" fill="#e7eef7"/><text class="label" x="722" y="94">Search Exa</text>
+<text class="label" x="30" y="170">2 · First page</text><rect x="209" y="140" width="192" height="51" rx="4" fill="#e4f0e7"/><text class="label" x="225" y="162">Tool + URL + approval</text><text class="small" x="225" y="180">3 decisions</text><text class="small" x="529" y="170">No call</text><rect x="704" y="140" width="154" height="51" rx="4" fill="#e7eef7"/><text class="label" x="722" y="170">Read NASA</text>
+<text class="label" x="30" y="246">3 · Second page</text><rect x="209" y="216" width="192" height="51" rx="4" fill="#e4f0e7"/><text class="label" x="225" y="238">Tool + URL + approval</text><text class="small" x="225" y="256">3 decisions</text><text class="small" x="529" y="246">No call</text><rect x="704" y="216" width="154" height="51" rx="4" fill="#e7eef7"/><text class="label" x="722" y="246">Read NASA</text>
+<text class="label" x="30" y="322">4 · Synthesis</text><rect x="209" y="292" width="192" height="51" rx="4" fill="#e4f0e7"/><text class="label" x="225" y="314">Answer</text><text class="small" x="225" y="332">1 decision</text><rect x="470" y="292" width="176" height="51" rx="4" fill="#f9edcd"/><text class="label" x="486" y="322">Write cited brief</text><text class="small" x="755" y="322">No call</text>
+<text class="small" x="30" y="381">ACTUAL TOTALS</text><text class="title" x="261" y="382">10 calls</text><text class="title" x="517" y="382">2 calls</text><text class="title" x="748" y="382">3 calls</text>
+</svg>
+</div><figcaption>Calls grouped by stage; query generation occurs before search approval. This is the saved run, not an idealized target sequence.</figcaption></figure>
+</section>
+
+<section id="boundary">
+<div class="section-number">04 / THE CONTEXT BOUNDARY</div><h2>Shared evidence. Different views.</h2>
+<p>Shared state is a Python data structure, not a shared conversational memory inside both models. Each API call receives an explicitly constructed view. Jev gets the state needed to choose; the writer gets its assignment and content.</p>
+<div class="grid two">
+<article class="card jev"><span class="tag">Controller view</span><h3>“What should happen next?”</h3><p>Request, research questions, events with tool identities, arguments, success/error status, and delivered results. Candidate descriptions are supplied for each decision; approval also includes the proposed call.</p></article>
+<article class="card llm"><span class="tag">Writer view</span><h3>“Write this particular thing.”</h3><p>For a query: brief + assigned question. For synthesis: request + evidence entries containing source references and delivered content or retrieval errors. No tool schemas, action menu, or Jev decision transcript.</p></article>
+</div>
+<details open><summary>Illustrative state projection—not an additional model call</summary><div class="inside">
+<pre><code>Controller event                         Writer evidence entry
+──────────────────────────────────       ────────────────────────────
+tool: "exa__web_fetch_exa"                source: ["https://…/hubble-vs-webb/"]
+arguments: {urls: ["https://…"]}    →     content: "[delivered page text]"
+ok: true
+source: ["https://…/hubble-vs-webb/"]
+result: "[delivered page text]"
+
+Dropped: tool identity, argument object, execution status fields.
+Not supplied: catalog, schemas, candidate choices, decision log.</code></pre>
+</div></details>
+<p>The research writer currently receives <em>all</em> source-bearing observations at synthesis, including search output. This is not a claim-aware evidence selector or a compressed knowledge store. The per-call result cap limits individual observations, not total accumulated context.</p>
+<div class="callout warning"><strong>This is an interface boundary, not a security sandbox.</strong> Tool metadata is omitted by construction, but retrieved text remains untrusted. Instructions tell both models to treat it as evidence rather than commands; the prototype does not establish production-grade prompt-injection resistance.</div>
+</section>
+
+<section id="comparison">
+<div class="section-number">05 / A FAIR COMPARISON</div><h2>Compare completed research, not just short runs.</h2>
+<p>The benchmark runs the same briefs through three architectures. All use the configured writing model, <code>gpt-5.6-luna</code>, the same four-tool catalog, and the same result/output limits. The Jev arm additionally uses <code>jev-latest</code>.</p>
+<div class="table-wrap"><table><thead><tr><th>Arm</th><th>Who controls actions?</th><th>What the LLM sees</th></tr></thead><tbody>
+<tr><td><strong>Jev</strong></td><td>Jev, with catalog-specific Python argument adapters.</td><td>A query-writing assignment or final evidence-writing assignment. No tools bound to the model.</td></tr>
+<tr><td><strong>Standard</strong></td><td>The LLM using native function calls.</td><td>The catalog and accumulated conversation, including returned assistant messages and tool results.</td></tr>
+<tr><td><strong>Compact</strong></td><td>The LLM using native function calls.</td><td>The catalog and reconstructed tool-call/result history. Earlier assistant prose/reasoning is omitted; evidence remains.</td></tr>
+</tbody></table></div>
+<p>The compact baseline matters: it tests whether the reduction is simply an advantage over a history-heavy implementation. It does not summarize or selectively retrieve old evidence. Reconstructed messages preserve actual assistant/tool roles.</p>
+<p>Shared limits are ten action iterations, 2,000 LLM output tokens per call, and 12,000 characters per tool result. Text-form Exa search records are shortened individually to preserve discovery breadth. Baselines can batch-fetch URLs; the Jev adapter selects one URL per fetch. Same tools do not imply the same retrieval trajectory or equal numbers of model calls.</p>
+<div class="callout"><strong>One repetition is a smoke test.</strong> The controller was developed on these three tasks. Arm order rotates, but there is no controlled cold-cache regime, held-out task set, or reliable estimate of accuracy and latency variance.</div>
+</section>
+
+<section id="tokens">
+<div class="section-number">06 / COUNTING TOKENS</div><h2>Less LLM work. Not necessarily lower total cost.</h2>
+<p>The strongest quality-qualified pair is Webb/Hubble: Jev and compact passed automated checks, with no recorded manual grounding failure. The standard arm failed citation provenance, so it is not a successful comparison pair.</p>
+<div class="metrics"><div class="metric"><strong>77.2%</strong><span>less gross LLM input<br>32,690 → 7,454 tokens</span></div><div class="metric"><strong>16.7%</strong><span>less uncached LLM input<br>8,945 → 7,454 tokens</span></div><div class="metric"><strong>75.4%</strong><span>less total LLM usage<br>34,048 → 8,368 tokens</span></div></div>
+<figure class="chart" aria-labelledby="token-chart-title"><h3 id="token-chart-title">The cache changes the interpretation.</h3>
+<div class="legend"><span><i class="key fresh" aria-hidden="true"></i>Uncached input</span><span><i class="key cached" aria-hidden="true"></i>Cached input, included in gross input</span></div>
+<div class="bar-row"><div class="bar-label"><strong>Compact baseline</strong><span>32,690 input tokens</span></div><div class="bar-track" aria-hidden="true"><div class="fresh" style="width:27.36%"></div><div class="cached" style="width:72.64%"></div></div><div class="small-copy muted">8,945 uncached + 23,745 cached</div></div>
+<div class="bar-row"><div class="bar-label"><strong>Jev-controlled writer</strong><span>7,454 input tokens</span></div><div class="bar-track" aria-hidden="true"><div class="fresh" style="width:22.802%"></div></div><div class="small-copy muted">7,454 uncached + 0 cached</div></div>
+<figcaption>Bars use the same scale. Much of the baseline’s repeated input was already served from cache.</figcaption></figure>
+<h3>Where the numbers come from</h3>
+<p><code>Meter</code> wraps each LLM invocation and logs provider usage metadata. It sums every completed call, including generations later rejected or found empty. Missing usage raises an error rather than counting a call as free. Failed requests without usage can have unknown billing.</p>
+<div class="table-wrap"><table><thead><tr><th>Quantity</th><th>Meaning</th><th>Do not confuse it with</th></tr></thead><tbody>
+<tr><td>Input / output</td><td>Provider-reported totals across calls.</td><td>Unique evidence size: repeated context can count repeatedly.</td></tr>
+<tr><td>Cached input</td><td>A reported subset of input.</td><td>Extra tokens to add to input, or zero-cost tokens.</td></tr>
+<tr><td>Reasoning tokens</td><td>A reported subset of output.</td><td>Extra output to add a second time.</td></tr>
+<tr><td>Jev usage</td><td>TypeSafe-reported input/output, tracked separately.</td><td>Free control logic, or identical units of compute across models.</td></tr>
+<tr><td>Catalog estimate</td><td>About 1,872 tokens for the serialized catalog, using the selected tokenizer or a fallback.</td><td>An isolated billing component or the entire source of savings.</td></tr>
+</tbody></table></div>
+<div class="formula">input reduction = 1 − (Jev-arm LLM input ÷ baseline LLM input)<br>uncached input = reported input − reported cache reads<br>LLM total = reported input + reported output</div>
+<p>For Webb/Hubble, Jev added <strong>44,061 input and 609 output tokens across ten controller calls</strong>. The LLM used 7,454 input and 914 output tokens across two calls. Wall time was 20.2 seconds for Jev versus 37.6 seconds for compact, excluding shared MCP startup. That is one observation, not a latency guarantee.</p>
+<p>The reduction comes from fewer writer invocations, no catalog in writer prompts, and less repeated LLM processing of growing evidence. This experiment changes those together; it does not isolate the causal contribution of each.</p>
+<details><summary>How to turn usage into a cost model</summary><div class="inside"><p>Use the applicable rates for each provider and normalize their pricing units before multiplying:</p><div class="formula">total cost ≈ uncached LLM input × input rate<br>+ cached LLM input × cache rate<br>+ LLM output × output rate<br>+ Jev charges + retrieval charges + billable retries</div><p>Then account for satisfactory-answer probability and review or repair work. No dollar estimate is asserted here. A reduction in one model’s token count is not proof of an end-to-end saving.</p></div></details>
+</section>
+
+<section id="failures">
+<div class="section-number">07 / WHAT WENT WRONG</div><h2>The controller can finish before the evidence does.</h2>
+<p>The evaluator checks expected fact patterns, at least two retrieved primary-source pages, at least two citation URLs, and whether citations were actually delivered as retrieved pages. For Exa batches, it checks visible page headers and sufficient body text; merely requesting a URL is not enough. These are heuristics—not semantic proof that a citation supports a claim.</p>
+<div class="table-wrap"><table><caption>All nine final runs, including failures</caption><thead><tr><th>Task</th><th>Arm</th><th class="num">LLM input</th><th class="num">LLM output</th><th>Outcome</th></tr></thead><tbody>
+<tr><td>Webb/Hubble</td><td>Jev</td><td class="num">7,454</td><td class="num">914</td><td class="pass">Pass*</td></tr>
+<tr><td>Webb/Hubble</td><td>Standard</td><td class="num">49,131</td><td class="num">1,326</td><td class="fail">Citation failure</td></tr>
+<tr><td>Webb/Hubble</td><td>Compact</td><td class="num">32,690</td><td class="num">1,358</td><td class="pass">Pass*</td></tr>
+<tr><td>Bennu</td><td>Jev</td><td class="num">8,936</td><td class="num">1,924</td><td class="fail">Manual grounding failure</td></tr>
+<tr><td>Bennu</td><td>Standard</td><td class="num">112,720</td><td class="num">1,885</td><td class="pass">Pass*</td></tr>
+<tr><td>Bennu</td><td>Compact</td><td class="num">81,923</td><td class="num">1,995</td><td class="pass">Pass*</td></tr>
+<tr><td>Climate</td><td>Jev</td><td class="num">10,343</td><td class="num">862</td><td class="fail">Citation failure</td></tr>
+<tr><td>Climate</td><td>Standard</td><td class="num">31,948</td><td class="num">1,234</td><td class="pass">Pass*</td></tr>
+<tr><td>Climate</td><td>Compact</td><td class="num">32,157</td><td class="num">1,295</td><td class="pass">Pass*</td></tr>
+</tbody></table></div>
+<p class="small-copy muted">* Automated checks passed and no manual failure was recorded—not an exhaustive audit of every sentence. Gross input includes cache hits; controller tokens are separate.</p>
+<div class="grid">
+<article class="card"><span class="tag">Standard · Webb/Hubble</span><h3>Requested ≠ delivered</h3><p>The answer cited Webb’s orbit page. Its URL had been requested in a batch, but truncation removed its page body from delivered evidence. Citation provenance failed.</p></article>
+<article class="card"><span class="tag">Jev · climate</span><h3>Discovered ≠ retrieved</h3><p>The answer cited a Copernicus PDF found in discovery material, but never fetched. Jev had read WMO’s report and a Copernicus methods page, then authorized synthesis without retrieving that PDF.</p></article>
+<article class="card"><span class="tag">Jev · Bennu</span><h3>Retrieved ≠ supported</h3><p>The cited NASA page supported the count of fourteen amino acids, but the writer supplied a specific enumeration absent from delivered evidence. Automated checks passed; manual review failed it.</p></article>
+</div>
+<div class="callout warning"><strong>Do not count an incomplete answer as a saving.</strong> After automatic and recorded manual exclusions, there is one successful pair against compact and none against standard. Bennu is excluded despite passing automated checks.</div>
+<p>The source-delivery checker was corrected after execution and reapplied to every saved run without new model calls. Original checks and traces were retained. The manual Bennu annotation is tied to this particular run.</p>
+<h3>What this suggests next—not implemented yet</h3>
+<ul>
+<li><strong>Separate discovery from citable evidence.</strong> Pass explicit delivered-source IDs to the writer and enforce citation membership after generation.</li>
+<li><strong>Verify claims, not only URLs.</strong> Check whether each material claim is supported by the cited passage; a genuine source can still carry an unsupported claim.</li>
+<li><strong>Make completion evidence-aware.</strong> Track coverage of each question and route missing evidence or unsupported claims back into research.</li>
+<li><strong>Test beyond the development briefs.</strong> Repeat unseen tasks, measure failure/repair cost, and compare realistic cache conditions.</li>
+</ul>
+<p>Jev’s approval currently happens <em>before retrieval</em>. There is no post-synthesis Jev fact-check or repair loop in this controller. Moving action decisions does not, by itself, solve the writer’s grounding problem.</p>
+</section>
+
+<section id="implementation">
+<div class="section-number">08 / CODE &amp; REPRODUCTION</div><h2>Where the boundaries live in code.</h2>
+<div class="table-wrap"><table><thead><tr><th>File</th><th>Responsibility</th></tr></thead><tbody>
+<tr><td><a href="../src/jevex/research.py"><code>research.py</code></a></td><td>Research policy, action loop, question/URL selection, argument recipes, and research checks.</td></tr>
+<tr><td><a href="../src/jevex/jev.py"><code>jev.py</code></a></td><td>TypeSafe choice requests, response validation, retries, and controller usage.</td></tr>
+<tr><td><a href="../src/jevex/writer.py"><code>writer.py</code></a></td><td>Content-only writing interface; rejects tool calls and empty text.</td></tr>
+<tr><td><a href="../src/jevex/investigation.py"><code>investigation.py</code></a></td><td>Shared choice helper, evidence projection, observations, and standard/compact loops.</td></tr>
+<tr><td><a href="../src/jevex/external.py"><code>external.py</code></a></td><td>MCP connections, allowed dispatch, schema validation, timeout, and truncation.</td></tr>
+<tr><td><a href="../src/jevex/measurement.py"><code>measurement.py</code></a></td><td>Per-call LLM usage, tokenizer-based schema estimates, and totals.</td></tr>
+<tr><td><a href="../src/jevex/benchmark.py"><code>benchmark.py</code></a></td><td>Runs the three arms, rotates order, saves traces, evaluates, and reports paired results.</td></tr>
+</tbody></table></div>
+<p>The adapter is intentionally specialized. It knows how these four tools accept queries and URLs, and which parameters can be fixed in code. Discovering an arbitrary new MCP tool does not automatically teach the controller to construct its arguments without exposing schemas to the writer.</p>
+<h3>Run the research comparison</h3><p>From the repository root, with the existing model credentials in <code>.env</code>:</p>
+<pre><code>uv sync --locked --extra benchmark --group dev
+
+# New output directory; invokes both model providers.
+uv run --extra benchmark jevex-benchmark \
+  --suite research --output benchmarks/runs/my-research
+
+# Narrow to one brief, optionally repeating it.
+uv run --extra benchmark jevex-benchmark \
+  --task webb-hubble --repeats 2 \
+  --output benchmarks/runs/my-webb-comparison
+
+# Rebuild a saved report without model calls.
+uv run --extra benchmark jevex-benchmark \
+  --summarize benchmarks/runs/my-research</code></pre>
+<p class="small-copy">Output directories must be new. Live execution incurs model usage and depends on external services. No credentials are embedded in this page. Research does not require the optional repository checkout.</p>
+<h3>Inspect the evidence</h3>
+<p><code>results.json</code> stores answers, checks, tokens, and elapsed time. Per-run JSONL files record model messages, choices, tool arguments, and delivered observations. <code>catalog.json</code> captures schemas; <code>metadata.json</code> records models, limits, hashes, and dependency versions. Raw traces can contain source data and local paths, and are Git-ignored.</p>
+<ul>
+<li><a href="../benchmarks/RESULTS.md">Versioned findings and caveats</a> · <a href="../benchmarks/README.md">Full reproduction guide</a></li>
+<li><a href="../benchmarks/research-tasks.json">Task definitions and evaluator patterns</a> · <a href="../benchmarks/research-review.json">Run-specific manual review</a></li>
+<li><a href="../benchmarks/runs/research-final/report.md">Local final report</a> · <a href="../benchmarks/runs/research-final/results.json">Local answers and usage</a> · <a href="../benchmarks/runs/research-final/webb-hubble-1-jev.jsonl">Actual Webb/Hubble trace</a> <span class="muted">(raw-run links require the original local artifacts)</span></li>
+</ul>
+<div class="callout"><strong>The finding in one sentence:</strong> a structured controller can keep tool orchestration out of the writing model and materially reduce its token traffic, but useful research still depends on evidence coverage, grounded synthesis, and the cost of the controller itself.</div>
+</section>
+<footer>Jevex architecture field notes · Based on the 17 September 2026 live research experiment.<br>Self-contained HTML and inline diagrams. No external scripts, fonts, analytics, or network requests are needed to read this page.</footer>
+</main></div>
+</body>
+</html>

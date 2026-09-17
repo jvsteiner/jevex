@@ -1,5 +1,8 @@
 # Jevex
 
+[Illustrated architecture explainer](docs/how-jevex-works.html) — the Jev/LLM split,
+a live research walkthrough, token accounting, and the limits exposed by the benchmark.
+
 A minimal experiment in the architecture described in [INSTRUCTIONS.md](INSTRUCTIONS.md).
 Jev directs the loop. A LangChain chat model writes argument values and the final response.
 Three local MCP servers expose **12 working tools**; no external MCP accounts are needed.
