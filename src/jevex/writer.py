@@ -30,9 +30,9 @@ class Writer:
             self.usage[key] += (response.usage_metadata or {}).get(key, 0)
         if response.tool_calls:
             raise ValueError("Writer attempted a tool call")
-        if not isinstance(response.content, str) or not response.content.strip():
+        if not response.text.strip():
             raise ValueError("Writer returned no plain text")
-        return response.content.strip()
+        return response.text.strip()
 
 
 def content_context(state: dict, limit: int = 6000) -> str:

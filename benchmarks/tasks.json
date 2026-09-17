@@ -1,0 +1,21 @@
+[
+  {
+    "id": "compatibility",
+    "request": "We are evaluating this pinned Requests release for an application on Python 3.8. Inspect the declared installation requirements and the CI configuration. Does the release declare support for Python 3.8 and permit urllib3 2.x? State the exact urllib3 version bounds, and identify whether CI explicitly tests urllib3 1.x. Cite the source files. Do not infer that every urllib3 2.x release supports Python 3.8.",
+    "answer_patterns": ["3\\.8", "1\\.21\\.1", "(?:<\\s*3|below 3|less than 3)", "urllib3.*(?:1\\.x|<2|< 2)", "setup\\.py", "run-tests\\.yml"],
+    "evidence_groups": [["setup.py"], [".github/workflows/run-tests.yml"]]
+  },
+  {
+    "id": "release-fix",
+    "request": "Investigate the netrc credential-routing fix in this pinned Requests release. Read the release history and recent Git commits. Identify the CVE, the implementation commit, and the precise hostname parsing change. Inspect a regression-test commit and explain the crafted-URL case it covers. Cite commit hashes and filenames. Base the answer on retrieved diffs, not prior knowledge.",
+    "answer_patterns": ["CVE-2024-47081", "96ba401", "hostname", "netloc", "(?:evil\\.com|user.?info|crafted|malicious)", "(?:5b4b64c|7bc4587)", "utils\\.py"],
+    "evidence_groups": [["HISTORY.md"], ["96ba401"], ["5b4b64c", "7bc4587"]]
+  },
+  {
+    "id": "release-provenance",
+    "allow_unavailable": true,
+    "request": "Cross-check this Requests checkout against the published metadata at https://pypi.org/pypi/requests/2.32.4/json . Read the local package version metadata and installation metadata, and fetch the published record. Report whether version, license, and minimum Python requirement agree, including the exact values and source locations. If the remote source is unavailable, report that rather than assuming agreement.",
+    "answer_patterns": ["2\\.32\\.4", "Apache", "3\\.8", "__version__\\.py", "setup\\.py", "pypi\\.org"],
+    "evidence_groups": [["src/requests/__version__.py"], ["setup.py"], ["https://pypi.org/pypi/requests/2.32.4/json"]]
+  }
+]

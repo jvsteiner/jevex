@@ -4,6 +4,11 @@ A minimal experiment in the architecture described in [INSTRUCTIONS.md](INSTRUCT
 Jev directs the loop. A LangChain chat model writes argument values and the final response.
 Three local MCP servers expose **12 working tools**; no external MCP accounts are needed.
 
+For a real-world comparison using Exa web search and page retrieval plus Fetch MCP,
+see [the research benchmark](benchmarks/README.md). It compares Jev against
+standard and compact native tool-calling LLM loops, with measured tokens and latency.
+An optional repository-investigation suite uses filesystem and Git MCP servers.
+
 ```text
 User request + previous observations
                 │

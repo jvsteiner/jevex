@@ -1,0 +1,9 @@
+[
+  {
+    "task": "bennu-claim",
+    "repeat": 1,
+    "engine": "jev",
+    "passed": false,
+    "note": "The answer enumerates 14 specific amino acids under a NASA citation. Neither retrieved page nor the delivered search output supplies that enumeration (including alanine, arginine, and lysine). The count is supported; the list is not supported by the evidence delivered to this run. Excluded from successful paired savings despite passing the automated fact-pattern and citation checks. This annotation applies only to research-final, not future runs."
+  }
+]

@@ -13,6 +13,14 @@ dependencies = [
 
 [project.scripts]
 jevex = "jevex.cli:main"
+jevex-benchmark = "jevex.benchmark:main"
+
+[project.optional-dependencies]
+benchmark = [
+    "mcp-server-fetch>=2026.8.18",
+    "mcp-server-git>=2026.8.18",
+    "tiktoken>=0.12,<1",
+]
 
 [dependency-groups]
 dev = ["pytest>=8,<10", "pytest-asyncio>=1,<2", "ruff>=0.12"]
@@ -27,4 +35,3 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 100
-

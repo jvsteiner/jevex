@@ -7,3 +7,5 @@ __pycache__/
 traces/
 *-live.jsonl
 *-run.jsonl
+benchmarks/data/
+benchmarks/runs/

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "webb-hubble",
+    "request": "Write a primary-source research brief comparing Webb and Hubble for observing the early universe. Search NASA/ESA sources, retrieve at least two source pages, and cite direct URLs. Cover mirror sizes, wavelength capabilities, why redshift matters, their different observing locations, and why Webb is not a universal replacement for Hubble.",
+    "questions": [
+      "How do NASA and ESA describe Webb and Hubble mirror diameters and wavelength coverage?",
+      "Why is Webb infrared sensitivity useful for redshifted early galaxies, and what can Hubble still do?",
+      "Where do Webb and Hubble operate, and how do their observing locations differ?"
+    ],
+    "answer_patterns": ["6\\.5", "2\\.4", "infrared", "ultraviolet|UV", "redshift|red.shift", "L2|Lagrange", "Earth"],
+    "primary_domains": ["nasa.gov", "esa.int", "esahubble.org", "esawebb.org"]
+  },
+  {
+    "id": "bennu-claim",
+    "request": "Fact-check the claim that NASA discovered life in Bennu samples. Focus on the findings announced in January 2025, not later discoveries. Search primary NASA and research-publication sources, retrieve at least two pages, and produce a cited brief. State the amino-acid and nucleobase findings, evidence of ancient salty water, and what the results do and do not show about life.",
+    "questions": [
+      "What amino acids and nucleobases did January 2025 NASA Bennu sample analyses report?",
+      "What did the January 2025 Bennu mineral study find about ancient brines or salty water?",
+      "Do the January 2025 Bennu chemistry findings establish life, and what limits do the researchers state?"
+    ],
+    "answer_patterns": ["14|fourteen", "20|twenty", "five|5", "nucleobase", "brine|salt", "not.{0,80}(?:life|evidence)|no.{0,30}evidence.{0,30}life"],
+    "primary_domains": ["nasa.gov", "nature.com", "si.edu", "jaxa.jp"]
+  },
+  {
+    "id": "climate-reconciliation",
+    "request": "Reconcile WMO and Copernicus reporting of global temperature in 2024. Search their primary reports, retrieve at least two pages, and cite direct URLs. Give each institution's estimate relative to pre-industrial conditions, the baseline period and WMO uncertainty, explain why the figures differ, and assess whether one calendar year above 1.5 C alone establishes a breach of the long-term Paris temperature goal.",
+    "questions": [
+      "What did WMO report for 2024 global warming above 1850-1900, including uncertainty?",
+      "What did Copernicus ERA5 report for 2024 above pre-industrial conditions and why can it differ from the WMO multi-dataset estimate?",
+      "How do WMO and Copernicus distinguish a single year above 1.5 C from the long-term Paris temperature goal?"
+    ],
+    "answer_patterns": ["1\\.55", "1\\.60?", "0\\.13", "1850", "1900", "decad|long.term", "dataset|reanalys|ERA5"],
+    "primary_domains": ["wmo.int", "copernicus.eu", "ecmwf.int"]
+  }
+]

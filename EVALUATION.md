@@ -1,5 +1,9 @@
 # Live experiment — 2026-09-17
 
+This records the initial toy experiment. For the later comparison on real web research
+with published MCP servers, see [benchmark results](benchmarks/RESULTS.md)
+and the [reproduction guide](benchmarks/README.md).
+
 The configured models were TypeSafe `jev-latest` and the user's writing model,
 `gpt-5.6-luna`, accessed through LangChain. These are individual smoke runs against
 the real providers and the three real local MCP servers, not an accuracy benchmark.
